@@ -137,7 +137,7 @@ public class VoiceManager : MonoBehaviour
             trueResult = 2; 
         }
         if(calls[7].Equals(audioSource.clip)){
-            trueResult = 1; 
+            trueResult = 4; 
         }
         
     }

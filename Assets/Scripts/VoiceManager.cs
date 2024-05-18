@@ -1,7 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+
 using UnityEngine;
+
+
 
 using UnityEngine.UI;
 
@@ -18,6 +22,7 @@ public class VoiceManager : MonoBehaviour
     [SerializeField]Button declineButton;
     
 
+    int defaultPitch = 1;
     int ringtoneNumber = 0;
     int callNumber = 1;
     float ringtoneVolume = 0.05f;
@@ -71,6 +76,7 @@ public class VoiceManager : MonoBehaviour
     audioSource.volume = ringtoneVolume;
     audioSource.clip = calls[ringtoneNumber];
     audioSource.loop = true;
+    audioSource.pitch = defaultPitch;
     }
 
 
@@ -87,17 +93,20 @@ public class VoiceManager : MonoBehaviour
         audioSource.volume = voiceVolume;
         audioSource.loop = false;
         audioSource.clip = calls[callNumber];
+        audioSource.pitch = RandomPitchNumber();
     }
 
     public void DeclineCall(){
-        
+        audioSource.Stop();
         SetPhoneInactive();
+        Camera.main.GetComponent<NumberManager>().HideNunber();
+        cooroutineHasStarted=false;
     }
 
     public void AnswerCall(){
         SetPhoneInactive();
         DefaultCallSettings();
-        audioSource.Play();
+        audioSource.Play();        
         callNumber++;
         Camera.main.GetComponent<OperatorCalls>().operatorButtonsActive = true;
         
@@ -118,10 +127,24 @@ public class VoiceManager : MonoBehaviour
         if(calls[3].Equals(audioSource.clip)){
             trueResult = 1; 
         }
+        if(calls[4].Equals(audioSource.clip)){
+            trueResult = 2; 
+        }
+        if(calls[5].Equals(audioSource.clip)){
+            trueResult = 1; 
+        }
+        if(calls[6].Equals(audioSource.clip)){
+            trueResult = 2; 
+        }
+        if(calls[7].Equals(audioSource.clip)){
+            trueResult = 1; 
+        }
+        
     }
 
     public void ReusltOfTheChoice(){        //this works with button's onClick() and checks if the verdict is right, and setting the cooroutine for the next call
-        if(calls[callNumber]!=null){        //if it is the last call, no need for the ringtone cooroutine
+        audioSource.Stop(); // this line is for stopping the call after a operator button was clicked
+        if(StillCallsLeft()){        //if it is the last call, no need for the ringtone cooroutine
             cooroutineHasStarted = false;
             }
             Debug.Log(cooroutineHasStarted);
@@ -135,7 +158,25 @@ public class VoiceManager : MonoBehaviour
 
         
     }
+    
+    public float RandomPitchNumber(){
+        float pitchNumber = UnityEngine.Random.Range(0.9f, 1.10f);
+        return pitchNumber;
+    }
 
+    public Boolean StillCallsLeft()
+    {
+        if(calls[callNumber]!=null){
+            return true;
+        }else return false;
+    }
+    public Boolean AudioSourceIsNotPlaying(){
+        if(audioSource.isPlaying)
+        {
+        return false;
+        }
+        else return true;
+    }
 
 
 }

@@ -79,6 +79,8 @@ public void DecisionWasMade(){
     operatorButtonsActive =false;
     Camera.main.GetComponent<NumberManager>().HideNunber();
     Camera.main.GetComponent<NumberManager>().ChangeNumber();
+    Camera.main.GetComponent<MapManager>().HideCallersLocation();
+    Camera.main.GetComponent<MapManager>().ChangeCallersLocation();
 }
 public void OperatorButtonsActivityHandler(){
     if(operatorButtonsActive == false){

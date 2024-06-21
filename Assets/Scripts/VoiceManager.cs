@@ -59,6 +59,7 @@ public class VoiceManager : MonoBehaviour
         audioSource.clip = calls[ringtoneNumber];
         audioSource.Play();
         Camera.main.GetComponent<NumberManager>().DisplayeNunber();
+        Camera.main.GetComponent<MapManager>().DisplayCallersLocation();
         SetPhoneActive();
     }
 
@@ -100,6 +101,7 @@ public class VoiceManager : MonoBehaviour
         audioSource.Stop();
         SetPhoneInactive();
         Camera.main.GetComponent<NumberManager>().HideNunber();
+        Camera.main.GetComponent<MapManager>().HideCallersLocation();
         cooroutineHasStarted=false;
     }
 
